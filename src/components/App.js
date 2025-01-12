@@ -7,7 +7,7 @@ function App() {
   const [result, setResult] = useState(0);
   const [amount, setAmount] = useState(0);
   
-  const items=[{id:1,factor:"1",name:'Meter'},{id:2,factor:"100",name:'CetiMeter'},{id:3,factor:"1000",name:'Millimeter'},{id:4,factor:"0.001",name:'Kilometer'}];
+  
 const [frominput, setFrom] = useState("1");
 const [to, setTo] = useState("1");
 
@@ -15,24 +15,24 @@ const [to, setTo] = useState("1");
         setValue(event.target.value);
     };
 
-const Convert =()=>{
-let itemFrom = items.find(x=>x.factor == frominput);
-let itemTo = items.find(x=>x.factor == to);
+const Convert =(e)=>{
+e.preventDefault();
+let itemFrom = units.find(x=>x.factor == frominput);
+let itemTo = units.find(x=>x.factor == to);
 let fromFactor=itemFrom.factor;
 let toFactor=itemTo.factor;
 let amountInput=!!parseFloat(amount)?parseFloat(amount):0;
-setResult((amountInput * parseFloat(toFactor) / parseFloat(fromFactor)).toString());
+setResult((amountInput * parseFloat(fromFactor) / parseFloat(toFactor)).toString());
 }
+
   return (
     <>
       <div className="converter-form">
-       {<Input label="Amount" onChange={event => handleChange(event,setAmount)}></Input>}
-
+       <Input label="Amount" onChange={event=>handleChange(event,setAmount)} />
         <div className="row">
-          <Select label="From" items={items} onChange={event => handleChange(event,setFrom)}></Select>
-          <Select label="To" items={items} onChange={event => handleChange(event,setTo)}></Select>
-
-          <button onClick={Convert}>Convert</button>
+          <Select label="From" items={units} onChange={event=>handleChange(event,setFrom)} />
+          <Select label="To" items={units} onChange={event=>handleChange(event,setTo)} />
+          <button type="button" onClick={Convert}>Convert</button>
         </div>
       </div>
 
